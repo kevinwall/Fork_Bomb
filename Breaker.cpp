@@ -30,6 +30,8 @@ int main(int argc, char const *argv[])
     std::string bomber;
     bomber = exec("whoami | grep -E -v '^$'");
 
+    //std::cout << bomber << std::endl;
+
     // Aqui declaramos as variáveis que serão utilizadas para analizar o funcionamento do sistema
     int q_process, threshold{200};
     std::string table, ppid, user;
@@ -41,12 +43,18 @@ int main(int argc, char const *argv[])
 
         while(oss >> q_process)
         {
+            std::cout<<"Entrei na remoção "<<std::endl;
+
             oss >> ppid; // Aqui, pegamos o ppid do processo.
             oss >> user; // Aqui pegamos o usuário responsável por criar o processo.
+
             user = user + "\n"; // Adicionamos o "\n" para ele ficar compatível com o usuário "bomber" e conseguirmos realziar a comparãção com precisão.
-        
-            if(user.compare(bomber)) //Se o usuário que criou o processo atual for o mesmo que o usuário suspeito "bomber".
+
+            std::cout<<"Vou comparar o processo"<<std::endl;
+            if(user.compare(std::string(bomber)) == 0) //Se o usuário que criou o processo atual for o mesmo que o usuário suspeito "bomber".
             {
+                std::cout<<"Achei o user, vou matar o processo"<<std::endl;
+                //std::cout<<"User: "<<user<<"Bomber:"<< bomber;
                 if(q_process > threshold) // Se a quantidade de processos desse usuário for maior que um limiar, ele é o causador do fork bomb.
                 {
                     // INformamos qual processo e usuário é o causador do bomb.
@@ -55,7 +63,7 @@ int main(int argc, char const *argv[])
                     // Matamos o processo.
                     std::string kill;
 
-                    kill = "kill -9 " + ppid;
+                    kill = "kill -15 " + ppid;
 
                     system(kill.c_str());
 
