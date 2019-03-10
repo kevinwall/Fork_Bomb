@@ -88,14 +88,6 @@ void print_numberProcessByUser(){
 	}
 }
 
-void tree_ID( pid_t pid){
-	vecto<list<int>> dummy;
-
-	
-
-
-}
-
 int main(void){
 	//numberProcess();
 	print_numberProcessByUser();
