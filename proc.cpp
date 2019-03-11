@@ -1,4 +1,6 @@
 #include <iostream>
+#include <map>
+#include <vector>
 #include <list>
 #include <string.h>
 #include <sys/types.h>
@@ -6,6 +8,7 @@
 #include <thread>
 #include <unistd.h>
 #include <sstream>
+#include <fstream>
 
 using namespace std;
 using namespace chrono;
@@ -88,10 +91,38 @@ void print_numberProcessByUser(){
 	}
 }
 
+void exportTree()
+{
+	string pid;
+	std::cout << "Insira o PID de onde a arvore deve comecar: ";
+	std::cin >> pid;
+	string comando = "pstree -A -p " + pid + " > arvore" + pid + ".txt";
+	system(comando.c_str());
+	std::cout << endl;
+	std::cout << "======================================================" << endl;
+	
+}
+
 
 int main(void){
-	//numberProcess();
-	print_numberProcessByUser();
+	short int c;
+
+
+	std::cout << " Escolha o tipo de mapeamento (1) para mapeamento normal, (2) para mapeamento por usuário e (3) para a arvore desejada:" <<endl;
+	std::cin >> c;
+	switch(c){
+		case 1:
+			numberProcess();
+		break;
+
+		case 2:
+			print_numberProcessByUser();
+		break;
+		
+		case 3:
+			exportTree();
+		break;
+	
 	
 	return 0;
 }
